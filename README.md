@@ -1,1 +1,0 @@
-# tech-challenge-registro-automoveis

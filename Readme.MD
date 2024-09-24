@@ -1,21 +1,28 @@
-# Guia de Instalação do Docker
-
-Este guia fornece instruções para instalar o Docker em sistemas operacionais Linux e Windows. Docker é uma plataforma popular para criar, implantar e executar aplicativos em contêineres.
 
 ## Índice
 
 - [Introdução](#introdução)
 - [Pré-requisitos](#pré-requisitos)
+- [Tecnologias Utilizadas](#tecnologias-utilizadas)
+- [Guia de Instalação do Docker](#guia-de-instalação-do-docker)
 - [Instalação no Linux](#instalação-no-linux)
     - [Ubuntu](#ubuntu)
 - [Instalação no Windows](#instalação-no-windows)
-    - [Windows 10/11](#windows-1011)
-- [Verificação da Instalação](#verificação-da-instalação)
-- [Recursos Adicionais](#recursos-adicionais)
+    - [Executar o Instalador](#executar-o-instalador)
+- [Minikube](#Minikube)
+- [Rodando a Aplicação](#rodando-a-aplicação)
 
-## Introdução
+- [Endpoints](#endpoints)
+    - [POST /clientes](#post-clientes)
+    - [POST /veiculos](#post-veiculos)
+    - [GET /veiculos/status](#get-veiculosstatuse)
+    - [POST /vendas](#post-vendas)
+- [Acessando MySQL para recuperar ID de Clientes para efetuar Vendas](#acessando-mysql-para-recuperar-id-de-clientes-para-efetuar-vendas)
+- [Collection do Insomnia](#collection-do-insomnia)
+# Introdução
 
-Docker é uma ferramenta que permite empacotar aplicativos e suas dependências em contêineres. Contêineres são leves, portáteis e garantem que o aplicativo funcione em qualquer ambiente.
+Esta é a documentação da API para a plataforma de revenda de veículos automotores. A API permite a gestão de veículos para venda, incluindo cadastro, edição, venda e listagem.
+
 
 ## Pré-requisitos
 
@@ -24,6 +31,19 @@ Antes de instalar o Docker, certifique-se de que:
 - Você tem privilégios administrativos no seu sistema.
 - Para Windows, a versão 10 ou superior é recomendada.
 - Para Linux, um sistema baseado em Debian (Ubuntu) ou Red Hat (CentOS) é recomendado.
+
+### Tecnologias Utilizadas
+
+- Java JDK 17
+- Maven
+- Spring Boot 3.3.1
+- OpenAPI/Swagger para a documentação
+- MySQL para o banco de dados
+
+# Guia de Instalação do Docker
+
+Este guia fornece instruções para instalar o Docker em sistemas operacionais Linux e Windows. Docker é uma plataforma popular para criar, implantar e executar aplicativos em contêineres.
+
 
 ## Instalação no Linux
 
@@ -40,13 +60,12 @@ Antes de instalar o Docker, certifique-se de que:
    sudo apt-get install docker-ce
    sudo systemctl status docker
 
-### Windows
-1. Baixar o Docker Desktop
+## Instalação no Windows
+- Baixar o Docker Desktop
+- Acesse a [página de download do Docker Desktop](https://www.docker.com/products/docker-desktop) no site oficial do Docker.
+- Clique no botão **"Download for Windows"** para baixar o instalador mais recente do Docker Desktop para Windows.
 
-1. Acesse a [página de download do Docker Desktop](https://www.docker.com/products/docker-desktop) no site oficial do Docker.
-2. Clique no botão **"Download for Windows"** para baixar o instalador mais recente do Docker Desktop para Windows.
-
-### 2. Executar o Instalador
+### Executar o Instalador
 
 1. Após o download, localize o arquivo `.exe` baixado e dê um duplo clique para iniciar o assistente de instalação.
 2. Siga as instruções no assistente. Durante a instalação, você pode ser solicitado a instalar o WSL 2, caso ainda não esteja instalado.
@@ -81,30 +100,120 @@ minikube -p minikube docker-env | Invoke-Expression
     
 
 # Rodando a Aplicação
-1. Execute o comando na raíz da aplicação: 
+- Execute o comando na raíz da aplicação: 
 ``` docker build -t veiculos-container-teste . ```
 ```Depois rode o comando minikube image load veiculos-container-teste```
-2. Feito isso, Rode o comando:
+- Feito isso, Rode o comando:
 ```docker-compose up -d```
-3. Feito isso, vá até a pasta k8s e rode o comando: 
+- Feito isso, vá até a pasta k8s e rode o comando: 
 ``kubectl apply -f app-deployment.yaml``
-4. Verifique as pods com o comando
+- Verifique as pods com o comando
 ```kubectl get pods```
-5. Execute o comando:
+- Execute o comando:
 ``minikube service app-service``
-6. Esse comando te dará uma URL para você acessar a POD externamente via Postman
-7. Acesse o Swagger/OpenAPI da applicação pelo endpoint: 
-<br>```http://{Endereco-Retornado-Pelo-app-service}/swagger-ui/index.html```
-    
-# Acessando MySQL para recuperar ID de Clientes para efetuar Vendas
+- Esse comando te dará uma URL para você acessar a POD externamente via Postman ou Insomnia
+- Acesse o Swagger/OpenAPI da applicação pelo endpoint: 
+<br>```http://{substitua-pelo-endereco-retornado-pelo-app-service}/swagger-ui/index.html```
+
+
+## Endpoints
+
+### POST /clientes
+Este endpoint salva um novo Cliente. O corpo da requisição deve conter os detalhes do Cliente a ser salvo.
+
+**Request:**
+```http
+{
+  "cpf": "32805040074"
+}
+```
+**Response:**
+```http
+204 
+```
+
+
+### POST /veiculos
+Cadastra um novo veículo para venda.
+
+**Request:**
+```http
+{
+  "marca": "Renault",
+  "modelo": "Sandero",
+  "ano": "2024-09-02",
+  "value": 32000,
+  "status": "DISPONIVEL"
+}
+```
+**Response:**
+```http
+204
+```
+
+### GET /veiculos/status
+Este endpoint retorna uma lista de veículos com base no status fornecido. O status deve ser uma das opções válidas, como 'DISPONIVEL' ou 'VENDIDO'.
+_Ordenada por preço, do mais barato para o mais caro_<br>
+
+**Request:**
+```http
+DISPONIVEL OU VENDIDO
+```
+**Response:**
+```http
+[
+  {
+    "id": "2801bc32-adb4-4353-9a1d-a09c638f37a1",
+    "marca": "Renault",
+    "modelo": "Sandero",
+    "ano": "2024-09-02",
+    "value": 32000,
+    "status": "VENDIDO"
+  },
+  {
+    "id": "110b6b5f-1818-4fcf-9e93-1a3aa71b9c89",
+    "marca": "honda",
+    "modelo": "hrv-c",
+    "ano": "2024-09-23",
+    "value": 9000000,
+    "status": "VENDIDO"
+  }
+]
+```
+
+### POST /vendas
+Este endpoint registra uma nova venda de veículo. O corpo da requisição deve conter os detalhes do veículo e do cliente envolvidos na venda.
+
+_**Para encontrar o id_cliente e id_veiculo ver diretamente na tabela.**_
+
+**Request:**
+```http
+{
+  "idVeiculo": "2801bc32-adb4-4353-9a1d-a09c638f37a1",
+  "idCliente": "a9dd0a05-c9f2-44a0-9e05-efe5e452efca",
+  "valorPago": 32000
+}
+```
+
+**Response:**
+```http
+204
+```
+ 
+### Acessando MySQL para recuperar ID de Clientes para efetuar Vendas
 1. Execute o comando:
 ````kubectl get pods ````
 2. Encontre o Pod do MySQL
 3. Execute o comando:
 ````kubectl exec -it {POD} -- bash````<br>
 ````mysql -u root -p````<br>
-````admin````<br>
+````insira a senha: admin````<br>
+4. Comandos para rodar: <br>
 ````show databases;````<br>
 ````use fiap;````<br>
 ````show tables;````<br>
 ````select * from tb_cliente;````<br>
+
+# Collection do Insomnia
+#### _A collection com todas as requisições se encontram na pasta  'collection' dentro do repositório._
+

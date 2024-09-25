@@ -3,6 +3,7 @@ package com.fiap.veiculos.infrastructure.persistence.repository;
 import com.fiap.veiculos.application.gateway.VeiculoRepositoryGateway;
 import com.fiap.veiculos.domain.Status;
 import com.fiap.veiculos.domain.Veiculo;
+import com.fiap.veiculos.infrastructure.exceptions.GenericException;
 import com.fiap.veiculos.infrastructure.persistence.entity.VeiculoEntity;
 import com.fiap.veiculos.infrastructure.persistence.persistence.VeiculoSpringDataRepository;
 import org.modelmapper.ModelMapper;
@@ -49,5 +50,30 @@ public class VeiculoRepository implements VeiculoRepositoryGateway {
                 .stream()
                 .map(entity -> modelMapper.map(entity, Veiculo.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void edit(Veiculo veiculo) {
+        VeiculoEntity veiculoEntity = veiculoRepository.findById(veiculo.getId())
+                .orElseThrow(() -> new GenericException("Veiculo nao encontrado!"));
+
+        if (veiculo.getAno() != null) {
+            veiculoEntity.setAno(veiculo.getAno());
+        }
+
+        if (veiculo.getMarca() != null) {
+            veiculoEntity.setMarca(veiculo.getMarca());
+        }
+
+        if (veiculo.getModelo() != null) {
+            veiculoEntity.setModelo(veiculo.getModelo());
+        }
+
+        if (veiculo.getValue() != null) {
+            veiculoEntity.setValue(veiculo.getValue());
+        }
+
+        veiculoRepository.save(veiculoEntity);
+
     }
 }

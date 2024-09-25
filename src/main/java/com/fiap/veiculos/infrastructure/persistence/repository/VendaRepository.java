@@ -14,7 +14,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
+import java.util.UUID;
 
 @Component
 public class VendaRepository implements VendaRepositoryGateway {
@@ -43,11 +43,18 @@ public class VendaRepository implements VendaRepositoryGateway {
             throw new GenericException("Valor a pagar inválido, Valor ser pago deve ser: ".concat(veiculo.getValue().toString()));
         }
 
-        VendaEntity vendaEntity = new VendaEntity(null, veiculo, cliente, LocalDate.now());
+        VendaEntity vendaEntity = new VendaEntity(UUID.randomUUID().toString(), veiculo, cliente, venda.getDataDaVenda());
         vendaSpringDataRepository.save(vendaEntity);
 
         veiculo.setStatus(Status.VENDIDO);
         veiculoSpringDataRepository.save(veiculo);
 
+    }
+
+    @Override
+    public Venda findById(String uuid) {
+        VendaEntity vendaEntity = vendaSpringDataRepository.findById(uuid).orElseThrow(() -> new GenericException("Erro ao encontrar Venda: Nao existe na base ded dados!"));
+
+        return modelMapper.map(vendaEntity, Venda.class);
     }
 }

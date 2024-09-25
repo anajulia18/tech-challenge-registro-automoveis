@@ -10,8 +10,7 @@ import java.time.LocalDate;
 public class VendaEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     @ManyToOne
     @JoinColumn(name = "veiculo_id")
@@ -24,21 +23,19 @@ public class VendaEntity {
     @Column(name = "data_venda")
     private LocalDate dataDaVenda;
 
-    public VendaEntity(Long id, VeiculoEntity veiculo, ClienteEntity cliente, LocalDate dataDaVenda) {
+    public VendaEntity(String id, VeiculoEntity veiculo, ClienteEntity cliente, LocalDate dataDaVenda) {
         this.id = id;
         this.veiculo = veiculo;
         this.cliente = cliente;
         this.dataDaVenda = dataDaVenda;
     }
 
-    public VendaEntity() {
-    }
-
-    public Long getId() {
+    public VendaEntity(){}
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

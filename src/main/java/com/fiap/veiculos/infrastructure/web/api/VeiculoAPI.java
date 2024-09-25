@@ -1,6 +1,7 @@
 package com.fiap.veiculos.infrastructure.web.api;
 
 import com.fiap.veiculos.domain.Veiculo;
+import com.fiap.veiculos.infrastructure.web.commands.EditarVeiculoCommand;
 import com.fiap.veiculos.infrastructure.web.commands.VeiculoCadastroCommand;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -45,4 +46,19 @@ public interface VeiculoAPI {
     })
     @GetMapping("/status")
     public ResponseEntity<?> findByStatus(@RequestParam("status") String status);
+
+
+    @Operation(summary = "Edite um veículo",
+            description = "Este endpoint Edita um veículo. O corpo da requisição deve conter os detalhes do veículo a ser editado.",
+            tags = {"Veículo"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Veículo Editado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do Servidor")
+    })
+    @PutMapping
+    public ResponseEntity<?> edit(@Parameter(description = "Detalhes do veículo a ser Editado", required = true)
+                                  @RequestBody
+                                  @Valid
+                                  @Validated EditarVeiculoCommand command);
 }

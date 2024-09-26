@@ -3,6 +3,7 @@
 
 - [Introdução](#introdução)
 - [Pré-requisitos](#pré-requisitos)
+- [Estrutura do Projeto](#estrutura-do-projeto)
 - [Tecnologias Utilizadas](#tecnologias-utilizadas)
 - [Guia de Instalação do Docker](#guia-de-instalação-do-docker)
 - [Instalação no Linux](#instalação-no-linux)
@@ -21,10 +22,14 @@
 - [Collection do Insomnia](#collection-do-insomnia)
 # Introdução
 
-Esta é a documentação da API para a plataforma de revenda de veículos automotores. A API permite a gestão de veículos para venda, incluindo cadastro, edição, venda e listagem.
-
+Este projeto consiste em uma plataforma para gerenciar a revenda de veículos automotores. A aplicação permite o cadastro, edição, listagem e venda de veículos, além de funcionalidades relacionadas ao gerenciamento do status de pagamento dos mesmos. A solução foi desenvolvida utilizando Spring Boot (versão 3.3.1), documentada com OpenAPI/Swagger, e implementada seguindo os princípios de SOLID e Clean Architecture.
 
 ## Pré-requisitos
+Antes de começar, certifique-se de ter os seguintes itens instalados:
+- JDK 17
+- Maven 
+- Docker
+- Kubernetes
 
 Antes de instalar o Docker, certifique-se de que:
 
@@ -32,12 +37,27 @@ Antes de instalar o Docker, certifique-se de que:
 - Para Windows, a versão 10 ou superior é recomendada.
 - Para Linux, um sistema baseado em Debian (Ubuntu) ou Red Hat (CentOS) é recomendado.
 
+
+
+## Estrutura do Projeto
+O projeto segue os princípios de Clean Architecture, dividindo as responsabilidades em camadas bem definidas:
+
+- Core (Domínio): Onde ficam as entidades e as regras de negócio.
+- Use Cases (Aplicação): Contém a lógica de interação entre as camadas e implementa os casos de uso.
+- Adapters (Interface): Contém os controladores e repositórios que fazem a integração com frameworks externos.
+- Infrastructure: Implementações de serviços e repositórios, além das configurações de frameworks.
+
+
 ### Tecnologias Utilizadas
 
-- Java JDK 17
-- Maven
+- JDK 17
+- Maven (para gerenciar dependências do projeto)
+- Docker
 - Spring Boot 3.3.1
-- OpenAPI/Swagger para a documentação
+- OpenAPI/Swagger para documentação
+- Kubernetes para orquestração de contêineres
+- Docker e Docker Compose para automação de build e execução local
+- SOLID e Clean Architecture
 - MySQL para o banco de dados
 
 # Guia de Instalação do Docker
@@ -199,7 +219,59 @@ _**Para encontrar o id_cliente e id_veiculo ver diretamente na tabela.**_
 ```http
 204
 ```
- 
+
+
+### PUT /veiculos
+Este endpoint Edita um veículo. O corpo da requisição deve conter os detalhes do veículo a ser editado.
+
+_**Para encontrar o id_cliente e id_veiculo ver diretamente na tabela.**_
+
+**Request:**
+```http
+{
+  "marca": "string",
+  "modelo": "string",
+  "ano": "2024-09-26",
+  "value": 0,
+  "id": "string"
+}
+```
+
+**Response:**
+```http
+204 - Veículo Editado com sucesso
+```
+
+
+### GET /vendas/uuid_venda
+Este endpoint permite consultar os detalhes de uma venda de veículo específica. O corpo da requisição deve conter o identificador da venda.
+
+_**Para encontrar o id_cliente e id_veiculo ver diretamente na tabela.**_
+
+**Request:**
+```http
+uuid da venda
+```
+
+**Response:**
+```http
+{
+  "cliente": {
+    "id": "33376179-956b-4112-b109-51971c3099c6",
+    "cpf": "51690258829"
+  },
+  "veiculo": {
+    "id": "97767981-f022-4dcb-890e-b1cba753e7e3",
+    "marca": "Chevrolet",
+    "modelo": "Onix",
+    "ano": "2021-07-22",
+    "value": 85000,
+    "status": "VENDIDO"
+  },
+  "dataDaVenda": "2024-09-26"
+}
+```
+
 ### Acessando MySQL para recuperar ID de Clientes para efetuar Vendas
 1. Execute o comando:
 ````kubectl get pods ````

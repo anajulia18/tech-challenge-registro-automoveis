@@ -288,4 +288,6 @@ uuid da venda
 
 # Collection do Insomnia
 #### _A collection com todas as requisições se encontram na pasta  'collection' dentro do repositório._
+#### _Não esquecer de alterar a variável base_url._
+
 

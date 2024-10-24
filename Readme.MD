@@ -135,6 +135,15 @@ minikube -p minikube docker-env | Invoke-Expression
 - Acesse o Swagger/OpenAPI da applicação pelo endpoint: 
 <br>```http://{substitua-pelo-endereco-retornado-pelo-app-service}/swagger-ui/index.html```
 
+### Gerando Token JWT
+Acesse a url: ```{enderecoretornadopelaapp}/auth/register``` 
+com o body <br>```{     name: """,  email: """,  password: """,  cpf: "";} ```
+8. Recuperando Token JWT
+   Acesse a URL:  ```{enderecoretornadopelaapp}/auth/token``` com o body 
+9. ```{username :"", senha" " "}``` dos usuarios que você criou
+9. Copie o Token JWT retornado
+10. Faça Solicitação para os endpoints protegidos via gateway passando o Bearer Token no header: Authorization
+
 
 ## Endpoints
 

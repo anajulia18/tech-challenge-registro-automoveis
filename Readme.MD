@@ -120,29 +120,42 @@ minikube -p minikube docker-env | Invoke-Expression
     
 
 # Rodando a Aplicação
-- Execute o comando na raíz da aplicação: 
-``` docker build -t veiculos-container-teste . ```
-```Depois rode o comando minikube image load veiculos-container-teste```
-- Feito isso, Rode o comando:
-```docker-compose up -d```
-- Feito isso, vá até a pasta k8s e rode o comando: 
-``kubectl apply -f app-deployment.yaml``
-- Verifique as pods com o comando
-```kubectl get pods```
-- Execute o comando:
-``minikube service app-service``
-- Esse comando te dará uma URL para você acessar a POD externamente via Postman ou Insomnia
-- Acesse o Swagger/OpenAPI da applicação pelo endpoint: 
-<br>```http://{substitua-pelo-endereco-retornado-pelo-app-service}/swagger-ui/index.html```
+1. Execute o comando na raíz da aplicação: <br>
+   `````mvn clean install`````<br>
+   ``` docker build -t veiculos-teste-manager . ```<br>
+   Depois rode o comando <br>```minikube image load veiculos-teste-manager```
+2. Depois vá até os outros repositórios e rode os comandos:
+   `````mvn clean install`````<br>
+   ``` docker build -t registry . ```<br>
+   `````mvn clean install`````<br>
+   ``` docker build -t auth44 . ```<br>
+3. `````mvn clean install`````<br>
+   ``` docker build -t registry-test . ```<br>
+4. Feito isso, Rode o comando e faça o image load do minikube para todos:
+```minikube image load registry``` <br>
+```minikube image load  auth44``` <br>
+```minikube image load registry-test``` <br>
+5. após isso volte a aplicação veiculos-manager e rode o comando:
+ 
+   ```docker-compose up -d```
+6. Feito isso, vá até a pasta k8s e rode o comando:
+   ``kubectl apply -f app-deployment.yaml``
+7. Verifique as pods com o comando
+   ```kubectl get pods```
+8. Execute o comando:
+   ``minikube service app-service``
+9. Esse comando te dará uma URL para você acessar a POD externamente via Postman
 
-### Gerando Token JWT
-Acesse a url: ```{enderecoretornadopelaapp}/auth/register``` 
-com o body <br>```{     name: """,  email: """,  password: """,  cpf: "";} ```
-8. Recuperando Token JWT
-   Acesse a URL:  ```{enderecoretornadopelaapp}/auth/token``` com o body 
-9. ```{username :"", senha" " "}``` dos usuarios que você criou
-9. Copie o Token JWT retornado
-10. Faça Solicitação para os endpoints protegidos via gateway passando o Bearer Token no header: Authorization
+10. Gerando Token JWT
+   Acesse a url: ```{enderecoretornadopelaapp}/auth/register``` com o body ```{     name: """,
+   email: """,
+   password: """,
+   cpf: "";}```
+11. Recuperando Token JWT
+   Acesse a URL:  ```{enderecoretornadopelaapp}/auth/token``` com o body ```{username :"", senha" " "}``` dos usuarios que você criou
+12. Copie o Token JWT retornado
+13. Faça Solicitação para os endpoints protegidos via gateway passando o Bearer Token no header: Authorization
+
 
 
 ## Endpoints

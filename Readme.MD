@@ -131,7 +131,7 @@ minikube -p minikube docker-env | Invoke-Expression
    ``` docker build -t auth44 . ```<br>
 3. `````mvn clean install`````<br>
    ``` docker build -t registry-test . ```<br>
-4. Feito isso, Rode o comando e faça o image load do minikube para todos:
+4. Feito isso, Rode o comando e faça o image load do minikube para todos: <br>
 ```minikube image load registry``` <br>
 ```minikube image load  auth44``` <br>
 ```minikube image load registry-test``` <br>

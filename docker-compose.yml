@@ -1,6 +1,7 @@
 version: '3.8'
 
 services:
+
   mysql:
     image: mysql:8.0
     container_name: mysql
@@ -18,9 +19,10 @@ services:
     build: .
     container_name: veiculos-app
     ports:
-      - "8080:8080"
+      - "9090:9090"
     depends_on:
       - mysql
+      - registry
     networks:
       - app-network
     environment:
@@ -29,6 +31,8 @@ services:
       SPRING_JPA_SHOW_SQL: true
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
       SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL: true
+
+
 
 networks:
   app-network:

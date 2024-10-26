@@ -17,14 +17,4 @@ public class ClienteRepository implements ClienteRepositoryGateway {
         this.clienteSpringDataRepository = clienteSpringDataRepository;
     }
 
-
-    @Override
-    public void save(Cliente cliente) {
-        if (cliente.getId() == null) {
-            cliente.setId(UUID.randomUUID().toString());
-        }
-
-        ClienteEntity clienteEntity = new ClienteEntity(cliente.getId(), cliente.getCpf(), null);
-        this.clienteSpringDataRepository.save(clienteEntity);
-    }
 }

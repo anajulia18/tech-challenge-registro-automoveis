@@ -27,7 +27,7 @@ Este projeto consiste em uma plataforma para gerenciar a revenda de veículos au
 ## Pré-requisitos
 Antes de começar, certifique-se de ter os seguintes itens instalados:
 - JDK 17
-- Maven 
+- Maven
 - Docker
 - Kubernetes
 
@@ -117,33 +117,37 @@ minikube start --driver=docker
 minikube docker-env
 minikube -p minikube docker-env | Invoke-Expression
 ```
-    
+
 
 # Rodando a Aplicação
-- Execute o comando na raíz da aplicação: 
-``` docker build -t veiculos-container-teste . ```
-```Depois rode o comando minikube image load veiculos-container-teste```
-- Feito isso, Rode o comando:
-```docker-compose up -d```
-- Feito isso, vá até a pasta k8s e rode o comando: 
-``kubectl apply -f app-deployment.yaml``
+- Execute o comando na raíz da aplicação:<br>
+  ``` docker build -t veiculos-teste-manager2 . ```<br>
+-   ```Depois rode o comando minikube image load veiculos-teste-manager2```<br>
+- No projeto de Auth rode o comando abaixo:
+- ``` docker build -t auth44 . ```<br>
+- ```Depois rode o comando minikube image load auth44```<br>
+- Feito isso, vá até a pasta k8s e rode o comando:
+  ``kubectl apply -f app-deployment.yaml``
 - Verifique as pods com o comando
-```kubectl get pods```
-- Execute o comando:
-``minikube service app-service``
-- Esse comando te dará uma URL para você acessar a POD externamente via Postman ou Insomnia
-- Acesse o Swagger/OpenAPI da applicação pelo endpoint: 
-<br>```http://{substitua-pelo-endereco-retornado-pelo-app-service}/swagger-ui/index.html```
+  ```kubectl get pods```
+- Execute o comando:<br>
+  ``kubectl port-forward svc/app 9898:9898 ``<br>
+  ``kubectl port-forward svc/app 9090:9090 ``<br>
+- Acesse o Swagger/OpenAPI da applicação pelo endpoint:
+  <br>```http://localhost:9090/swagger-ui/index.html``` Não esqueça do Bearer Token que será mencionado nos passos posteriores.
 
 
 ## Endpoints
 
-### POST /clientes
+### POST /auth/register
 Este endpoint salva um novo Cliente. O corpo da requisição deve conter os detalhes do Cliente a ser salvo.
 
 **Request:**
 ```http
 {
+  "email": "anajulia@gmail.com",
+  "password": "12345",
+  "name": "anaju"
   "cpf": "32805040074"
 }
 ```
@@ -152,7 +156,23 @@ Este endpoint salva um novo Cliente. O corpo da requisição deve conter os deta
 204 
 ```
 
+### POST /auth/token
+Este endpoint recupera um Token Bearer passando um Body.
 
+**Request:**
+```http
+{
+  "password": "12345",
+  "username": "anaju"
+}
+```
+**Response:**
+```http
+http: 200
+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuYW1lIiwiaWF0IjoxNzI5ODgzODYxLCJleHAiOjE3Mjk4ODU2NjF9.TS2KTNo2W0tubh-cQJF3WQ86gBITiWQMncViSntYxU0
+```
+
+========= ROTAS AUTENTICADAS, LEMBRAR DE PASSAR O BEARER TOKEN =========================
 ### POST /veiculos
 Cadastra um novo veículo para venda.
 
@@ -274,20 +294,19 @@ uuid da venda
 
 ### Acessando MySQL para recuperar ID de Clientes para efetuar Vendas
 1. Execute o comando:
-````kubectl get pods ````
+   ````kubectl get pods ````
 2. Encontre o Pod do MySQL
 3. Execute o comando:
-````kubectl exec -it {POD} -- bash````<br>
-````mysql -u root -p````<br>
-````insira a senha: admin````<br>
+   ````kubectl exec -it {POD} -- bash````<br>
+   ````mysql -u root -p````<br>
+   ````insira a senha: admin````<br>
 4. Comandos para rodar: <br>
-````show databases;````<br>
-````use fiap;````<br>
-````show tables;````<br>
-````select * from tb_cliente;````<br>
+   ````show databases;````<br>
+   ````use fiap;````<br>
+   ````show tables;````<br>
+   ````select * from tb_cliente;````<br>
 
 # Collection do Insomnia
 #### _A collection com todas as requisições se encontram na pasta  'collection' dentro do repositório._
 #### _Não esquecer de alterar a variável base_url._
-
 

@@ -131,11 +131,11 @@ minikube -p minikube docker-env | Invoke-Expression
 - Verifique as pods com o comando
   ```kubectl get pods```
 - Execute o comando:<br>
-  ``kubectl port-forward svc/app 9898:9898 ``<br>
+  ``kubectl port-forward svc/auth 9898:9898 ``<br>
   ``kubectl port-forward svc/app 9090:9090 ``<br>
 - Acesse o Swagger/OpenAPI da applicação pelo endpoint:
   <br>```http://localhost:9090/swagger-ui/index.html``` Não esqueça do Bearer Token que será mencionado nos passos posteriores.
-
+--http://localhost:9898/auth/register
 
 ## Endpoints
 

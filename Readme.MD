@@ -130,12 +130,11 @@ minikube -p minikube docker-env | Invoke-Expression
   ``kubectl apply -f app-deployment.yaml``
 - Verifique as pods com o comando
   ```kubectl get pods```
-- Execute o comando:<br>
+- Execute o comando em diferentes abas do terminal local (da IDE):<br>
   ``kubectl port-forward svc/auth 9898:9898 ``<br>
   ``kubectl port-forward svc/app 9090:9090 ``<br>
 - Acesse o Swagger/OpenAPI da applicação pelo endpoint:
   <br>```http://localhost:9090/swagger-ui/index.html``` Não esqueça do Bearer Token que será mencionado nos passos posteriores.
---http://localhost:9898/auth/register
 
 ## Endpoints
 
@@ -147,7 +146,7 @@ Este endpoint salva um novo Cliente. O corpo da requisição deve conter os deta
 {
   "email": "anajulia@gmail.com",
   "password": "12345",
-  "name": "anaju"
+  "name": "anajulia"
   "cpf": "32805040074"
 }
 ```

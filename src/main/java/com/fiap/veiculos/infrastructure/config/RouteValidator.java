@@ -18,6 +18,12 @@ public class RouteValidator {
 
     public Predicate<HttpServletRequest> isSecured = request -> {
         String path = request.getRequestURI();
+        if(path.contains("css")|| path.contains("js")
+                || path.contains("png")  || path.contains("api") ||
+                path.contains("docs") || path.contains("swagger"))
+        {
+            return false;
+        }
         return openApiEndpoints.stream().noneMatch(path::contains);
     };
 }

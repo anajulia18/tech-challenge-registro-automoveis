@@ -126,7 +126,7 @@ minikube -p minikube docker-env | Invoke-Expression
 - No projeto de Auth rode o comando abaixo:
 - Clone o repositório e rode um mvn clean install antes dos seguintes passos:
 - https://github.com/anajulia18/auth
-- 
+-
     - ``` docker build -t auth44 . ```<br>
     - ```Depois rode o comando minikube image load auth44```<br>
 - Feito isso, vá até a pasta k8s do projeto principal e rode o comando:
@@ -311,4 +311,3 @@ uuid da venda
 # Collection do Insomnia
 #### _A collection com todas as requisições se encontram na pasta  'collection-insomnia' dentro do repositório._
 #### _Não esquecer de alterar a variável base_url._
-

@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping(value = "/vendas")
+@RequestMapping(value = "/veiculos/vendas")
 public interface VendaAPI {
 
     @Operation(summary = "Registra uma venda de veículo",

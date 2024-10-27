@@ -124,8 +124,11 @@ minikube -p minikube docker-env | Invoke-Expression
   ``` docker build -t veiculos-teste-manager2 . ```<br>
 -   ```Depois rode o comando minikube image load veiculos-teste-manager2```<br>
 - No projeto de Auth rode o comando abaixo:
-- ``` docker build -t auth44 . ```<br>
-- ```Depois rode o comando minikube image load auth44```<br>
+- Clone o repositório e rode um mvn clean install antes dos seguintes passos:
+- https://github.com/anajulia18/auth
+- 
+    - ``` docker build -t auth44 . ```<br>
+    - ```Depois rode o comando minikube image load auth44```<br>
 - Feito isso, vá até a pasta k8s e rode o comando:
   ``kubectl apply -f app-deployment.yaml``
 - Verifique as pods com o comando

@@ -175,7 +175,7 @@ eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuYW1lIiwiaWF0IjoxNzI5ODgzODYxLCJleHAiOjE3Mjk4ODU
 ```
 
 ========= ROTAS AUTENTICADAS, LEMBRAR DE PASSAR O BEARER TOKEN =========================
-### POST /veiculos
+### POST veiculos/vendas
 Cadastra um novo veículo para venda.
 
 **Request:**

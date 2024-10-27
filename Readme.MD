@@ -265,7 +265,7 @@ _**Para encontrar o id_cliente e id_veiculo ver diretamente na tabela.**_
 ```
 
 
-### GET /vendas/uuid_venda
+### GET veiculos/vendas/uuid_venda
 Este endpoint permite consultar os detalhes de uma venda de veículo específica. O corpo da requisição deve conter o identificador da venda.
 
 _**Para encontrar o id_cliente e id_veiculo ver diretamente na tabela.**_
@@ -309,6 +309,6 @@ uuid da venda
    ````select * from tb_cliente;````<br>
 
 # Collection do Insomnia
-#### _A collection com todas as requisições se encontram na pasta  'collection' dentro do repositório._
+#### _A collection com todas as requisições se encontram na pasta  'collection-insomnia' dentro do repositório._
 #### _Não esquecer de alterar a variável base_url._
 

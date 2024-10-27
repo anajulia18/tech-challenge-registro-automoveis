@@ -56,4 +56,7 @@ public class Cliente {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public Cliente() {
+    }
 }

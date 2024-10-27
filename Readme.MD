@@ -129,7 +129,7 @@ minikube -p minikube docker-env | Invoke-Expression
 - 
     - ``` docker build -t auth44 . ```<br>
     - ```Depois rode o comando minikube image load auth44```<br>
-- Feito isso, vá até a pasta k8s e rode o comando:
+- Feito isso, vá até a pasta k8s do projeto principal e rode o comando:
   ``kubectl apply -f app-deployment.yaml``
 - Verifique as pods com o comando
   ```kubectl get pods```

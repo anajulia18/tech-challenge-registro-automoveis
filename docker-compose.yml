@@ -22,7 +22,6 @@ services:
       - "9090:9090"
     depends_on:
       - mysql
-      - registry
     networks:
       - app-network
     environment:

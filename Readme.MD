@@ -175,7 +175,7 @@ eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuYW1lIiwiaWF0IjoxNzI5ODgzODYxLCJleHAiOjE3Mjk4ODU
 ```
 
 ========= ROTAS AUTENTICADAS, LEMBRAR DE PASSAR O BEARER TOKEN =========================
-### POST veiculos/vendas
+### POST /veiculos
 Cadastra um novo veículo para venda.
 
 **Request:**
@@ -223,7 +223,7 @@ DISPONIVEL OU VENDIDO
 ]
 ```
 
-### POST /vendas
+### POST veiculos/vendas
 Este endpoint registra uma nova venda de veículo. O corpo da requisição deve conter os detalhes do veículo e do cliente envolvidos na venda.
 
 _**Para encontrar o id_cliente e id_veiculo ver diretamente na tabela.**_
